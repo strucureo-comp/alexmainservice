@@ -13,6 +13,7 @@ export default async function handler(req, res) {
   }
 
   let startTime = Date.now();
+  let userId = 'unknown';
   
   try {
     if (!authenticate(req)) {
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
     const { to, subject, html, attachments } = req.body;
 
     const user = getUser();
-    const userId = user.id;
+    userId = user.id;
 
     // Rate limiting check
     const rateCheck = checkRateLimit(userId, user.plan_type);
@@ -94,6 +95,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
+    console.error('[send-email] Error:', error.message, error.stack);
     releaseRequest(userId);
     
     // Enhanced error handling

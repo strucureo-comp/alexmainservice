@@ -1,0 +1,30 @@
+# ===== API Security =====
+API_KEY=test-api-key-123
+ADMIN_KEY=your-admin-key-here
+
+# ===== SMTP Configuration (BigRock Titan Mail) =====
+SMTP_HOST=smtp.titan.email
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=alex@strucureo.com
+SMTP_PASS=Qwerty@alex
+FROM_NAME=DriftSpike
+
+# ===== IMAP Configuration (BigRock Titan Mail) =====
+IMAP_HOST=imap.titan.email
+IMAP_PORT=993
+IMAP_SECURE=true
+IMAP_USER=alex@strucureo.com
+IMAP_PASS=Qwerty@alex
+
+# ===== Webhook Notifications (Auto-send new emails) =====
+# Set to your webhook URL to receive automatic notifications when new emails arrive
+# Example: WEBHOOK_URL=https://your-server.com/webhook/new-email
+WEBHOOK_URL=http://localhost:4000/webhook/new-email
+# How often to check for new emails (seconds)
+WEBHOOK_CHECK_INTERVAL=30
+
+# ===== Optional =====
+USER_EMAIL=alex@strucureo.com
+PLAN_TYPE=production
+PORT=3000

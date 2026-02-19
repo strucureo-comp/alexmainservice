@@ -20,6 +20,7 @@ const handlers = {
   '/api/get-config': (await import('./api/get-config.js')).default,
   '/api/metrics': (await import('./api/metrics.js')).default,
   '/api/webhook': (await import('./api/webhook.js')).default,
+  '/api/diagnostic': (await import('./api/diagnostic.js')).default,
 };
 
 // Rewrites (same as vercel.json)
