@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email WebSocket Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .connected { background: #d4edda; color: #155724; }
+        .disconnected { background: #f8d7da; color: #721c24; }
+        .message {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        button:hover { background: #0056b3; }
+        input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .messages-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Real-Time Email Notifications</h1>
+        
+        <div>
+            <input type="text" id="userId" placeholder="Enter your User ID (API Key)" />
+            <button onclick="connect()">Connect</button>
+            <button onclick="disconnect()">Disconnect</button>
+        </div>
+
+        <div id="status" class="status disconnected">
+            Status: Disconnected
+        </div>
+
+        <h2>New Messages</h2>
+        <div id="messages" class="messages-list"></div>
+    </div>
+
+    <script>
+        let ws = null;
+        const API_URL = 'wss://api-drift-spike.vercel.app/ws'; // Change to your domain
+
+        function connect() {
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                alert('Please enter your User ID');
+                return;
+            }
+
+            // Close existing connection
+            if (ws) {
+                ws.close();
+            }
+
+            // Create WebSocket connection
+            ws = new WebSocket(`${API_URL}?userId=${userId}`);
+
+            ws.onopen = () => {
+                updateStatus('Connected', true);
+                console.log('WebSocket connected');
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log('Received:', data);
+
+                if (data.type === 'connected') {
+                    addMessage('System', 'Connected successfully!', 'info');
+                } else if (data.type === 'new_messages') {
+                    handleNewMessages(data);
+                } else if (data.type === 'pong') {
+                    console.log('Pong received');
+                }
+            };
+
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                updateStatus('Error', false);
+            };
+
+            ws.onclose = () => {
+                updateStatus('Disconnected', false);
+                console.log('WebSocket disconnected');
+            };
+
+            // Send ping every 30 seconds to keep connection alive
+            setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'ping' }));
+                }
+            }, 30000);
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+
+        function updateStatus(text, connected) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = `Status: ${text}`;
+            statusEl.className = `status ${connected ? 'connected' : 'disconnected'}`;
+        }
+
+        function handleNewMessages(data) {
+            const count = data.count;
+            addMessage('System', `🔔 ${count} new message(s) received!`, 'success');
+
+            data.messages.forEach(msg => {
+                addMessage(
+                    msg.from,
+                    `<strong>${msg.subject}</strong><br>${msg.text.substring(0, 200)}...`,
+                    'email'
+                );
+            });
+
+            // Play notification sound (optional)
+            playNotificationSound();
+        }
+
+        function addMessage(from, content, type) {
+            const messagesEl = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = `
+                <strong>${from}</strong> - ${new Date().toLocaleTimeString()}<br>
+                ${content}
+            `;
+            messagesEl.insertBefore(messageDiv, messagesEl.firstChild);
+        }
+
+        function playNotificationSound() {
+            // Create a simple beep sound
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+    </script>
+</body>
+</html>
