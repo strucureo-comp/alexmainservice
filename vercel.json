@@ -1,0 +1,83 @@
+{
+  "buildCommand": "npm install",
+  "outputDirectory": ".",
+  "functions": {
+    "api/health.js": {
+      "maxDuration": 5,
+      "memory": 256
+    },
+    "api/diagnostic.js": {
+      "maxDuration": 5,
+      "memory": 256
+    },
+    "api/send-email.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "api/get-config.js": {
+      "maxDuration": 10,
+      "memory": 512
+    },
+    "api/read-messages.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "api/mark-read.js": {
+      "maxDuration": 10,
+      "memory": 512
+    },
+    "api/websocket.js": {
+      "maxDuration": 300,
+      "memory": 1024
+    },
+    "api/health.js": {
+      "maxDuration": 5,
+      "memory": 256
+    },
+    "api/metrics.js": {
+      "maxDuration": 10,
+      "memory": 512
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/api/metrics"
+    },
+    {
+      "source": "/ws",
+      "destination": "/api/websocket"
+    }
+  ]
+}
