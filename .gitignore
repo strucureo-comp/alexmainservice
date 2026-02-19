@@ -8,7 +8,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # =========================
-# Environment variables
+# Environment variables (exclude .local files but allow package-lock for deployment)
 # =========================
 .env
 .env.local
