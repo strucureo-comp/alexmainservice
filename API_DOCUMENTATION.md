@@ -1,4 +1,4 @@
-# DriftSpike Email API - Complete Documentation
+# Alex Email API - Complete Documentation
 
 ## Base URL
 

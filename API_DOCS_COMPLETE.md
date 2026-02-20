@@ -1,4 +1,4 @@
-# DriftSpike Email API - Complete Documentation
+# Alex Email API - Complete Documentation
 
 ## 🚀 Base URL
 
@@ -367,7 +367,7 @@ x-api-key: test-api-key-123
       "secure": true,
       "user": "alex@strucureo.com"
     },
-    "from_name": "DriftSpike",
+    "from_name": "Alex",
     "plan_type": "production"
   },
   "performance": {
@@ -530,7 +530,7 @@ WEBHOOK_URL=http://localhost:4000/webhook/new-email
 WEBHOOK_CHECK_INTERVAL=30
 
 # Additional
-FROM_NAME=DriftSpike
+FROM_NAME=Alex
 USER_EMAIL=alex@strucureo.com
 PLAN_TYPE=production
 PORT=3000

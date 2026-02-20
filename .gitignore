@@ -65,6 +65,6 @@ prisma/migrations/
 *.pem
 *.key
 *.crt
-driftspike-*.json
+Alex-*.json
 service-account-key.json
 credentials.json

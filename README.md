@@ -1,4 +1,4 @@
-# DriftSpike Email API
+# Alex Email API
 
 Environment-based email API with SMTP/IMAP support for Zoho Mail (or any email provider). No database required - everything runs locally with credentials stored in `.env.local`.
 

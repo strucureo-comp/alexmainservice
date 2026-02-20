@@ -36,7 +36,7 @@ curl -X POST https://api-drift-spike.vercel.app/api/send-email \
   -d '{
     "to": "recipient@example.com",
     "subject": "My First Email",
-    "html": "<h1>Hello World!</h1><p>This is my first email via DriftSpike API.</p>"
+    "html": "<h1>Hello World!</h1><p>This is my first email via Alex API.</p>"
   }'
 ```
 
@@ -174,4 +174,4 @@ ws.onmessage = (event) => {
 ## 📞 Support
 
 - Documentation: [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
-- GitHub: https://github.com/carsupra10/api.DriftSpike
+- GitHub: https://github.com/carsupra10/api.Alex

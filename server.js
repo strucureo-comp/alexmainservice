@@ -97,7 +97,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, async () => {
-  console.log(`\n  DriftSpike API running at http://localhost:${PORT}\n`);
+  console.log(`\n  Alex API running at http://localhost:${PORT}\n`);
   console.log('  Routes:');
   console.log('    GET  /health           - Health check');
   console.log('    GET  /api/get-config   - Get config');

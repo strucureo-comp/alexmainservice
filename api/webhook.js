@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       const testEmail = {
         id: 'test-123',
         from: 'test@example.com',
-        subject: 'Test email from DriftSpike',
+        subject: 'Test email from Alex',
         date: new Date(),
         unread: true
       };

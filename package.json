@@ -1,5 +1,5 @@
 {
-  "name": "driftspike-email-api",
+  "name": "Alex-email-api",
   "version": "3.0.0",
   "description": "Email API service with env-based SMTP/IMAP config",
   "type": "module",
